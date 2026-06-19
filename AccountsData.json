@@ -1,0 +1,42 @@
+{
+    "412521553001": {
+        "user_name": "Sneha",
+        "phone_no": 9080168075,
+        "account_type": "Savings",
+        "pin": 2004,
+        "balance": 5000,
+        "is_locked": true
+    },
+    "412521553002": {
+        "user_name": "Keerthi",
+        "phone_no": 9840673087,
+        "account_type": "Current",
+        "pin": 2000,
+        "balance": 19000,
+        "is_locked": false
+    },
+    "412521553003": {
+        "user_name": "Harini",
+        "phone_no": 8056258982,
+        "account_type": "Salary",
+        "pin": 6161,
+        "balance": 700,
+        "is_locked": false
+    },
+    "412521553004": {
+        "user_name": "Lakshmi",
+        "phone_no": 9840129150,
+        "account_type": "Savings",
+        "pin": 1504,
+        "balance": 50000,
+        "is_locked": false
+    },
+    "412521553005": {
+        "user_name": "Kavya",
+        "phone_no": 7550240499,
+        "account_type": "Current",
+        "pin": 2408,
+        "balance": 2600,
+        "is_locked": false
+    }
+}

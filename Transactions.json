@@ -1,0 +1,19 @@
+{
+    "412521553004": [
+        {
+            "withdraw_amount": 2000,
+            "balance_after": 58000,
+            "time": "2026-06-19 09:40:13"
+        },
+        {
+            "withdraw_amount": 2000,
+            "balance_after": 56000,
+            "time": "2026-06-19 10:46:31"
+        },
+        {
+            "withdraw_amount": 2000,
+            "balance_after": 50000,
+            "time": "2026-06-19 11:11:46"
+        }
+    ]
+}
