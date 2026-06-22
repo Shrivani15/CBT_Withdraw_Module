@@ -7,7 +7,6 @@ require_once "TransactionHandler.php";
 
 class Banking
 {
-	
 	/**
 	 * Process requested service until exit
 	 * @return void
