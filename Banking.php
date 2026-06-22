@@ -4,8 +4,9 @@ date_default_timezone_set("Asia/Kolkata");
 require_once "Account.php";
 require_once "WithdrawService.php";
 require_once "TransactionHandler.php";
+require_once "BalanceEnquiryService.php";
 
-class Banking
+class Banking 
 {
 	/**
 	 * Process requested service until exit
@@ -35,7 +36,9 @@ class Banking
 
 						break;
 					}
-					self::showBalance($account);
+					$service_requested = new BalanceEnquiryService();
+					$service_requested->start($account);
+					//self::showBalance($account);
 
 					break;
 				case 3:
@@ -55,14 +58,14 @@ class Banking
 		}
 	}
 
-	/**
-	 * Displays balance details
-	 * @param Account $_account
-	 * @return void
-	 */
-	private static function showBalance(Account $_account) {
-		echo "\nBALANCE DETAILS\nUser Name : " . $_account->getUserName() . "\nAccount Number : " . $_account->getAccountNo() . "\nAccount Type   : " . $_account->getAccountType() . "\nBalance : " . $_account->getBalance() . "\n";
-	}
+	// /**
+	//  * Displays balance details
+	//  * @param Account $_account
+	//  * @return void
+	//  */
+	// private static function showBalance(Account $_account) {
+	// 	echo "\nBALANCE DETAILS\nUser Name : " . $_account->getUserName() . "\nAccount Number : " . $_account->getAccountNo() . "\nAccount Type   : " . $_account->getAccountType() . "\nBalance : " . $_account->getBalance() . "\n";
+	// }
 
 	/**
 	 * Collects account number and validates

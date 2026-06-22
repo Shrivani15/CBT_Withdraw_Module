@@ -19,6 +19,11 @@
             "withdraw_amount": 200,
             "balance_after": 49800,
             "time": "2026-06-22 11:47:34"
+        },
+        {
+            "withdraw_amount": 200,
+            "balance_after": 49600,
+            "time": "2026-06-23 00:17:32"
         }
     ],
     "412521553003": [

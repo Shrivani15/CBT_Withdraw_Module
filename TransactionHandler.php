@@ -1,6 +1,8 @@
 <?php
 
-class TransactionHandler
+require_once "TransactionRepository.php";
+
+class TransactionHandler implements TransactionRepository
 {
 	/**
 	 * Loads transaction data from file.
