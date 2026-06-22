@@ -18,7 +18,7 @@ class TransactionHandler implements TransactionRepository
 	 * @param int $_account_no Account Number
 	 * @return array
 	 */
-	private function getTodayTransactions(int $_account_no) {
+	public function getTodayTransactions(int $_account_no) {
 		$transactions = $this->loadTransactions();
 
 		if (!array_key_exists($_account_no, $transactions)) {
