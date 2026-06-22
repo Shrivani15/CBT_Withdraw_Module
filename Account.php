@@ -28,7 +28,6 @@ class Account
 
 	/**
 	 * Saves account details.
-	 * 
 	 * @param int    $_account_no	Account Number
 	 * @param string $_user_name	Account Holder Name
 	 * @param int    $_phone_no		Account Holder phone number
@@ -50,7 +49,6 @@ class Account
 
 	/**
 	 * Returns account object if account exists
-	 *
 	 * @param int $_account_no
 	 * @return Account|null
 	 */
@@ -68,7 +66,6 @@ class Account
 
 	/**
 	 * Saves account changes to JSON file
-	 * 
 	 * @return void
 	 */
 	public function saveAccount() {

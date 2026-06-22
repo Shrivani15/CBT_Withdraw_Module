@@ -6,7 +6,6 @@ abstract class BankingService
 {
 	/**
 	 * Starts the requested banking service
-	 * 
 	 * @param Account $_accounts Account object
 	 * @return void
 	 */
@@ -20,7 +19,6 @@ abstract class BankingService
 
 	/**
 	 * Authenticates the user by validating the PIN.
-	 * 
 	 * @param Account $_account  Account object
 	 * @return bool
 	 */
@@ -51,7 +49,6 @@ abstract class BankingService
 
 	/**
 	 * Executes the selected banking service by child class implementation.
-	 * 
 	 * @param Account $_accounts Account object
 	 * @return void
 	 */

@@ -10,7 +10,6 @@ class Banking
 	
 	/**
 	 * Process requested service until exit
-	 *
 	 * @return void
 	 */
 	public static function run() {
@@ -59,7 +58,6 @@ class Banking
 
 	/**
 	 * Displays balance details
-	 *
 	 * @param Account $_account
 	 * @return void
 	 */
@@ -69,7 +67,6 @@ class Banking
 
 	/**
 	 * Collects account number and validates
-	 *
 	 * @return Account|null
 	 */
 	private static function getAccountDetails() {
@@ -93,7 +90,6 @@ class Banking
 
 	/**
 	 * Checks whether the account is blocked or not
-	 *
 	 * @param Account $_account
 	 * @return bool
 	 */

@@ -4,7 +4,6 @@ class TransactionHandler
 {
 	/**
 	 * Loads transaction data from file.
-	 *
 	 * @return array
 	 */
 	private function loadTransactions(){
@@ -14,7 +13,6 @@ class TransactionHandler
 
 	/**
 	 * Returns today's transactions for the given account.
-	 *
 	 * @param int $_account_no Account Number
 	 * @return array
 	 */
@@ -42,7 +40,6 @@ class TransactionHandler
 
 	/**
 	 * Returns today's transaction count for the given account.
-	 *
 	 * @param int $_account_no  Account Number
 	 * @return int
 	 */
@@ -53,7 +50,6 @@ class TransactionHandler
 
 	/**
 	 * Returns total amount withdrawn today.
-	 *
 	 * @param int $_account_no Account Number
 	 * @return int
 	 */
@@ -69,7 +65,6 @@ class TransactionHandler
 
 	/**
 	 * Saves a successful transaction.
-	 *
 	 * @param int $_account_no      Account Number,
 	 * @param int $_withdraw_amount Amount withdrawn,
 	 * @param int $_balance         Account current balance

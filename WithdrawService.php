@@ -10,8 +10,7 @@ class WithdrawService extends BankingService
 	private int $remaining_balance;
 
 	/**
-	 * Constructor for this class
-	 *
+	 * Constructor for this class.
 	 * @param TransactionHandler $_transaction_handler
 	 * @return void
 	 */
@@ -21,7 +20,6 @@ class WithdrawService extends BankingService
 
 	/**
 	 * Performs withdraw service.
-	 *
 	 * @param Account $_accounts
 	 * @return void
 	 */
@@ -49,7 +47,6 @@ class WithdrawService extends BankingService
 
 	/**
 	 * Validates withdrawal conditions.
-	 *
 	 * @param Account $_accounts
 	 * @param int $_withdraw_amount
 	 * @return string|null
@@ -81,7 +78,6 @@ class WithdrawService extends BankingService
 
 	/**
 	 * Performs withdrawal and updates account.
-	 *
 	 * @param Account $_accounts
 	 * @param int $_withdraw_amount
 	 * @return void
