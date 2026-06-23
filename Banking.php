@@ -3,7 +3,7 @@ date_default_timezone_set("Asia/Kolkata");
 
 require_once "Account.php";
 require_once "WithdrawService.php";
-require_once "TransactionHandler.php";
+require_once "WithdrawTransactionHandler.php";
 require_once "BalanceEnquiryService.php";
 
 class Banking 
@@ -13,7 +13,7 @@ class Banking
 	 * @return void
 	 */
 	public static function run() {
-		$transaction_handler = new TransactionHandler();
+		$transaction_handler = new WithdrawTransactionHandler();
 		while (true) {
 			echo "\nBANKING SERVICES\n 1. Withdrawal\n 2. View Balance\n 3. Exit\n";
 

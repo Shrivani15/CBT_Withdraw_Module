@@ -28,7 +28,7 @@
         "phone_no": 9840129150,
         "account_type": "Savings",
         "pin": 1504,
-        "balance": 49600,
+        "balance": 49400,
         "is_locked": false
     },
     "412521553005": {
@@ -36,7 +36,7 @@
         "phone_no": 7550240499,
         "account_type": "Current",
         "pin": 2408,
-        "balance": 2600,
+        "balance": 2500,
         "is_locked": false
     }
 }

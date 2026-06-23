@@ -2,19 +2,19 @@
 
 require_once "Account.php";
 require_once "BankingService.php";
-require_once "TransactionHandler.php";
+require_once "WithdrawTransactionHandler.php";
 
 class WithdrawService extends BankingService
 {
-	private TransactionHandler $transaction_handler;
+	private WithdrawTransactionHandler $transaction_handler;
 	private int $remaining_balance;
 
 	/**
 	 * Constructor for this class.
-	 * @param TransactionHandler $_transaction_handler
+	 * @param WithdrawTransactionHandler $_transaction_handler
 	 * @return void
 	 */
-	public function __construct(TransactionHandler $_transaction_handler) {
+	public function __construct(WithdrawTransactionHandler $_transaction_handler) {
 		$this->transaction_handler = $_transaction_handler;
 	}
 

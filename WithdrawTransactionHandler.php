@@ -2,7 +2,7 @@
 
 require_once "TransactionRepository.php";
 
-class TransactionHandler implements TransactionRepository
+class WithdrawTransactionHandler implements TransactionRepository
 {
 	/**
 	 * Loads transaction data from file.
