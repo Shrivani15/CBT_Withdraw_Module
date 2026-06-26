@@ -16,6 +16,6 @@ class BalanceEnquiryService extends BankingService
 	{
 		echo "\nBALANCE DETAILS\n";
 
-		echo "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNo() . "\nAccount Type : " .$_accounts->getAccountType() . "\nBalance :". $_accounts->getBalance()."\n";
+		echo "User Name : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nBalance :". $_accounts->getBalance()."\n";
 	}
 }

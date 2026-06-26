@@ -3,8 +3,9 @@ date_default_timezone_set("Asia/Kolkata");
 
 require_once "Account.php";
 require_once "WithdrawService.php";
-require_once "WithdrawTransactionHandler.php";
+require_once "TransactionService.php";
 require_once "BalanceEnquiryService.php";
+require_once "Database.php";
 
 class Banking 
 {
@@ -13,7 +14,7 @@ class Banking
 	 * @return void
 	 */
 	public static function run() {
-		$transaction_handler = new WithdrawTransactionHandler();
+		$transaction_service = new TransactionService(new TransactionRepository(new Database));
 		while (true) {
 			echo "\nBANKING SERVICES\n 1. Withdrawal\n 2. View Balance\n 3. Exit\n";
 
@@ -26,7 +27,7 @@ class Banking
 
 						break;
 					}
-					$service_requested = new WithdrawService($transaction_handler);
+					$service_requested = new WithdrawService($transaction_service);
 					$service_requested->start($account);
 					break;
 
@@ -43,7 +44,7 @@ class Banking
 					break;
 				case 3:
 
-					exit;
+					exit("\n Thank You!");
 				default:
 					echo "Invalid Service Option\n";
 
@@ -73,8 +74,10 @@ class Banking
 	 */
 	private static function getAccountDetails() {
 		$account_number = (int) readline("Enter Account Number: ");
+		$account_repository = new AccountRepository(new Database());
 
-		$account = Account::getAccount($account_number);
+		$account= $account_repository->getAccount($account_number);
+
 		if($account === null) {
 			echo "Invalid Account\n";
 
@@ -92,7 +95,7 @@ class Banking
 
 	/**
 	 * Checks whether the account is blocked or not
-	 * @param Account $_account
+	 * @param Account $_account Account object
 	 * @return bool
 	 */
 	private static function checkAccountOpen(Account $_account) {

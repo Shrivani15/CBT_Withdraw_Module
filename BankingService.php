@@ -1,9 +1,11 @@
 <?php
 
 require_once 'Account.php';
+require_once 'Database.php';
 
 abstract class BankingService
 {
+
 	/**
 	 * Starts the requested banking service
 	 * @param Account $_accounts Account object
@@ -41,7 +43,10 @@ abstract class BankingService
 		}
 
 		$_account->setIsLocked();
-		$_account->saveAccount();
+		$account_repository = new AccountRepository(new Database());
+
+		$account_repository->saveAccount($_account);
+
 		echo "Account Blocked\n";
 
 		return false;
