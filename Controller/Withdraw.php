@@ -1,15 +1,16 @@
 <?php
 
-session_start();
 
 header("Content-Type: application/json");
 
-require_once "../Database.php";
-require_once "../Account.php";
-require_once "../AccountRepository.php";
-require_once "../TransactionRepository.php";
-require_once "../TransactionService.php";
-require_once "../WithdrawService.php";
+require_once "../Config/Database.php";
+require_once "../Model/Account.php";
+require_once "../Repository/AccountRepository.php";
+require_once "../Repository/TransactionRepository.php";
+require_once "../Service/TransactionService.php";
+require_once "../Service/WithdrawService.php";
+
+$data = json_decode(file_get_contents("php://input"), true);
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -18,16 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-if (!array_key_exists("account_number", $_SESSION)) {
-    echo json_encode(["status" => false, "message" => "Please Authenticate First"]);
-
-    exit;
-}
-
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!array_key_exists("amount", $data)) {
-    echo json_encode(["status" => false, "message" => "Withdraw Amount Required"]);
+if (!array_key_exists("account_number", $data) || !array_key_exists("amount", $data)) {
+    echo json_encode(["status" => false, "message" => "Invalid Request"]);
 
     exit;
 }
@@ -42,11 +35,21 @@ $transaction_service = new TransactionService($transaction_repository);
 
 $withdraw_service = new WithdrawService($transaction_service);
 
-$account = $account_repository->getAccount($_SESSION["account_number"]);
+$account = $account_repository->getAccount($data["account_number"]);
+
+
 
 if ($account === null) {
 
     echo json_encode(["status" => false, "message" => "Account Not Found"]);
+
+    exit;
+}
+
+$error_message = $withdraw_service->withdraw($account, $data["amount"]);
+
+if ($error_message !== null) {
+    echo json_encode(["status" => false, "message" => $error_message]);
 
     exit;
 }

@@ -18,16 +18,19 @@ class Account
         ]
     ];
 
+	private int $id;
 	private int $account_number;
 	private string $user_name;
 	private int $phone_number;
 	private string $account_type;
 	private int $pin;
+	private int $attempts;
 	private int $balance;
 	private bool $is_locked;
 
 	/**
 	 * Saves account details.
+	 * @param int	 $_id               Id
 	 * @param int    $_account_number	Account Number
 	 * @param string $_user_name		Account Holder Name
 	 * @param int    $_phone_number		Account Holder phone number
@@ -37,13 +40,15 @@ class Account
 	 * @param bool   $_is_locked		Account is open or close to access
 	 * @return void
 	 */
-	public function __construct(int $_account_number, string $_user_name, int $_phone_number, string $_account_type, int $_pin, int $_balance, bool $_is_locked) {
+	public function __construct(int $_id, int $_account_number, string $_user_name, int $_phone_number, string $_account_type, int $_pin, int $_balance, int $_attempts, bool $_is_locked) {
+		$this->id = $_id;
 		$this->account_number = $_account_number;
 		$this->user_name = $_user_name;
 		$this->phone_number = $_phone_number;
 		$this->account_type = $_account_type;
 		$this->pin = $_pin;
 		$this->balance = $_balance;
+		$this->attempts = $_attempts;
 		$this->is_locked = $_is_locked;
 	}
 
@@ -105,6 +110,18 @@ class Account
 	public function getBalance() {
 
 		return $this->balance;
+	}
+
+	public function getId() {
+    	return $this->id;
+	}
+
+	public function getAttempts() {
+    	return $this->attempts;
+	}
+
+	public function setAttempts(int $_attempts) {
+    	$this->attempts = $_attempts;
 	}
 
 	public function setBalance(int $_balance) {

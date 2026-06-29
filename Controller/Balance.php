@@ -1,12 +1,10 @@
 <?php
 
-session_start();
-
 header("Content-Type: application/json");
 
-require_once "../Database.php";
-require_once "../Account.php";
-require_once "../AccountRepository.php";
+require_once "../Config/Database.php";
+require_once "../Model/Account.php";
+require_once "../Repository/AccountRepository.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     http_response_code(405);
@@ -15,17 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
     exit;
 }
 
-if (!array_key_exists("account_number", $_SESSION)) {
-    echo json_encode(["status" => false, "message" => "Please Authenticate First"]);
+if (!array_key_exists("account_number", $_GET)) {
+    echo json_encode(["status" => false, "message" => "Account Number Required"]);
 
     exit;
 }
-
 $database = new Database();
 
 $account_repository = new AccountRepository($database);
 
-$account = $account_repository->getAccount($_SESSION["account_number"]);
+$account = $account_repository->getAccount((int) $_GET["account_number"]);
+
 
 if ($account === null) {
     echo json_encode(["status" => false, "message" => "Account Not Found"]);

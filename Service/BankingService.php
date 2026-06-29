@@ -1,7 +1,7 @@
 <?php
 
-require_once 'Account.php';
-require_once 'Database.php';
+require_once '../Model/Account.php';
+require_once '../Config/Database.php';
 
 abstract class BankingService
 {
@@ -31,56 +31,47 @@ abstract class BankingService
 	{
 		return $this->authenticate($_account, $_pin);
 	}
-
 	/**
-	 * Authenticates the user by validating the PIN.
-	 * Blocks the account after 3 failed attempts.
-	 *
-	 * @param Account $_account Account object
-	 * @param int $_pin Entered PIN
+	 * Authenticates the user.
+	 * @param Account $_account
+	 * @param int $_pin
 	 * @return bool
 	 */
-	protected function authenticate(Account $_account, int $_pin) {
+	protected function authenticate(Account $_account, int $_pin): bool
+	{
 		if ($_account->getIsLocked()) {
 			echo "Account Blocked\n";
-
 			return false;
 		}
 
-		if (!array_key_exists("attempts", $_SESSION)) {
-			$_SESSION["attempts"] = 3;
-
-		}
+		$account_repository = new AccountRepository(new Database());
 
 		if ($_pin === $_account->getPin()) {
 
-			$_SESSION["attempts"] = 3;
+			$_account->setAttempts(3);
+
+			$account_repository->saveAccount($_account);
 
 			return true;
 		}
 
-		$_SESSION["attempts"]--;
+		$remaining_attempts = $_account->getAttempts() - 1;
 
-		if ($_SESSION["attempts"] > 0) {
+		$_account->setAttempts($remaining_attempts);
 
-			echo "Wrong PIN. Attempts Left : " . $_SESSION["attempts"] . "\n";
+		if ($remaining_attempts == 0) {
+
+			$_account->setIsLocked();
+
+			$account_repository->saveAccount($_account);
 
 			return false;
 		}
 
-		$_account->setIsLocked();
-
-		$account_repository = new AccountRepository(new Database());
-
 		$account_repository->saveAccount($_account);
-
-		$_SESSION["attempts"] = 3;
-
-		echo "Account Blocked\n";
 
 		return false;
 	}
-
 	/**
 	 * Executes the selected banking service by child class implementation.
 	 * @param Account $_accounts Account object

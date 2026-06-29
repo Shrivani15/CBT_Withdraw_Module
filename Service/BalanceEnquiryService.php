@@ -1,7 +1,7 @@
 <?php
 
 require_once "BankingService.php";
-require_once "Account.php";
+require_once "../Model/Account.php";
 
 class BalanceEnquiryService extends BankingService
 {

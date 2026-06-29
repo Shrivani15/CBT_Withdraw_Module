@@ -1,15 +1,13 @@
 <?php
 
-session_start();
-
 header("Content-Type: application/json");
 
-require_once "../Database.php";
-require_once "../Account.php";
-require_once "../AccountRepository.php";
-require_once "../TransactionRepository.php";
-require_once "../TransactionService.php";
-require_once "../WithdrawService.php";
+require_once "../Config/Database.php";
+require_once "../Model/Account.php";
+require_once "../Repository/AccountRepository.php";
+require_once "../Repository/TransactionRepository.php";
+require_once "../Service/TransactionService.php";
+require_once "../Service/WithdrawService.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     http_response_code(405);
@@ -43,13 +41,19 @@ $transaction_service = new TransactionService(new TransactionRepository($databas
 
 $withdraw_service = new WithdrawService($transaction_service);
 
-if (!$withdraw_service->login($account,$data["pin"])) {
+if (!$withdraw_service->login($account, $data["pin"])) {
 
-	echo json_encode(["status" => false, "message" => $account->getIsLocked() ? "Account Blocked" : "Invalid PIN", "attempts_left" => $_SESSION["attempts"] ?? 0 ]);
+    if ($account->getIsLocked()) {
 
-	exit;
+        echo json_encode(["status" => false, "message" => "Account Blocked"]);
+
+    } else {
+
+        echo json_encode(["status" => false, "message" => "Invalid PIN", "attempts_left" => $account->getAttempts()]);
+    }
+
+    exit;
 }
 
-$_SESSION["account_number"] = $account->getAccountNumber();
 
 echo json_encode(["status" => true, "message" => "Authentication Successful"]);

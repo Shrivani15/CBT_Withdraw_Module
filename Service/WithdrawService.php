@@ -1,9 +1,9 @@
 <?php
 
-require_once "Account.php";
+require_once "../Model/Account.php";
 require_once "BankingService.php";
 require_once "TransactionService.php";
-require_once "AccountRepository.php";
+require_once "../Repository/AccountRepository.php";
 
 class WithdrawService extends BankingService
 {
@@ -40,8 +40,8 @@ class WithdrawService extends BankingService
 	 */
 	public function withdraw(Account $_accounts, int $_withdraw_amount)
 	{
-		if ($this->transaction_service->getTodayTransactionCount($_accounts->getAccountNumber()) >= 3) {
-			return "Maximum 3 transactions allowed per day.\n";
+		if ($this->transaction_service->getTodayTransactionCount($_accounts->getId()) >= 3) {
+			return "Maximum 3 transactions allowed per day.";
 
 		}
 
@@ -69,7 +69,7 @@ class WithdrawService extends BankingService
 
 		$minimum_balance = Account::LIMITS[$_accounts->getAccountType()]['minimum_balance'];
 		$maximum_limit = Account::LIMITS[$_accounts->getAccountType()]['maximum_limit'];
-		$today_withdrawal_amount = $this->transaction_service->getTodayWithdrawalAmount($_accounts->getAccountNumber());
+		$today_withdrawal_amount = $this->transaction_service->getTodayWithdrawalAmount($_accounts->getId());
 
 		if($_withdraw_amount % 100 != 0){
 			
@@ -96,15 +96,13 @@ class WithdrawService extends BankingService
  	 * @return void
  	 */
 	private function performWithdrawal(Account $_accounts, int $_withdraw_amount) {
-   		$this->transaction_service->saveTransaction($_accounts->getAccountNumber(), $_withdraw_amount, $this->remaining_balance);
+   		$this->transaction_service->saveTransaction($_accounts->getId(), $_withdraw_amount, $this->remaining_balance);
 
     	$_accounts->setBalance($this->remaining_balance);
 
     	$account_repository = new AccountRepository(new Database());
 
     	$account_repository->saveAccount($_accounts);
-
-		echo "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nPhone Number : ". $_accounts->getPhoneNumber(). "\nWithdraw Amount : $_withdraw_amount\nRemaining Balance :". $_accounts->getBalance()."\n"; 
 	}
 }
 

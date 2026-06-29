@@ -1,7 +1,7 @@
 <?php
 
-require_once "TransactionOperation.php";
-require_once "TransactionRepository.php";
+require_once "../Service/Interface/TransactionOperation.php";
+require_once "../Repository/TransactionRepository.php";
 
 class TransactionService implements TransactionOperation
 {
@@ -54,24 +54,24 @@ class TransactionService implements TransactionOperation
 
 	/**
 	 * Returns today's transaction count.
-	 * @param int $_account_no
+	 * @param int $_account_id
 	 * @return int
 	 */
-	public function getTodayTransactionCount(int $_account_no)
+	public function getTodayTransactionCount(int $_account_id)
 	{
-		return count($this->transaction_repository->getTodayTransactions($_account_no));
+		return count($this->transaction_repository->getTodayTransactions($_account_id));
 	}
 
 	/**
 	 * Returns today's withdrawal amount.
-	 * @param int $_account_no
+	 * @param int $_account_id
 	 * @return int
 	 */
-	public function getTodayWithdrawalAmount(int $_account_no)
+	public function getTodayWithdrawalAmount(int $_account_id)
 	{
 		$total_amount = 0;
 
-		foreach ($this->transaction_repository->getTodayTransactions($_account_no) as $transaction) {
+		foreach ($this->transaction_repository->getTodayTransactions($_account_id) as $transaction) {
 			$total_amount += $transaction["withdraw_amount"];
 		}
 
@@ -81,14 +81,14 @@ class TransactionService implements TransactionOperation
 	/**
 	 * Saves a successful transaction.
 	 *
-	 * @param int $_account_no
+	 * @param int $_account_id
 	 * @param int $_withdraw_amount
 	 * @param int $_balance
 	 * @return void
 	 */
-	public function saveTransaction(int $_account_no, int $_withdraw_amount, int $_balance)
+	public function saveTransaction(int $_account_id, int $_withdraw_amount, int $_balance)
 	{
-		$this->transaction_repository->saveTransaction($_account_no, $_withdraw_amount, $_balance);
+		$this->transaction_repository->saveTransaction($_account_id, $_withdraw_amount, $_balance);
 	}
 
 }
