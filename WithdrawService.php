@@ -19,31 +19,44 @@ class WithdrawService extends BankingService
 		$this->transaction_service = $_transaction_serivce;
 	}
 
-	/**
+	/*
 	 * Performs withdraw service.
 	 * @param Account $_accounts
 	 * @return void
 	 */
 	#[Override]
-	public function service(Account $_accounts) {
-		if ($this->transaction_service->getTodayTransactionCount($_accounts->getAccountNumber()) >= 3 ) {
+	public function service(Account $_accounts)
+	{
+		$withdraw_amount = (int) readline("Enter Withdrawal Amount: ");
+
+		$this->withdraw($_accounts, $withdraw_amount);
+	}
+
+	/**
+	 * Performs withdrawal.
+	 * @param Account $_accounts
+	 * @param int $_withdraw_amount
+	 * @return void
+	 */
+	public function withdraw(Account $_accounts, int $_withdraw_amount)
+	{
+		if ($this->transaction_service->getTodayTransactionCount($_accounts->getAccountNumber()) >= 3) {
 			echo "Maximum 3 transactions allowed per day.\n";
 
 			return;
 		}
 
-		$withdraw_amount = (int) readline("Enter Withdrawal Amount: ");
+		$this->remaining_balance = $_accounts->getBalance() - $_withdraw_amount;
 
-		$this->remaining_balance = $_accounts->getBalance() - $withdraw_amount;
-
-		$error_message = $this->validateWithdrawal($_accounts, $withdraw_amount);
+		$error_message = $this->validateWithdrawal($_accounts, $_withdraw_amount);
 
 		if ($error_message !== null) {
 			echo $error_message . "\n";
 
 			return;
 		}
-		$this->performWithdrawal($_accounts, $withdraw_amount);
+
+		$this->performWithdrawal($_accounts, $_withdraw_amount);
 	}
 
 	/**
@@ -93,7 +106,7 @@ class WithdrawService extends BankingService
 
 		$account_repository->saveAccount($_accounts);
 
-		echo "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nPhone Number : ". $_accounts->getPhoneNumber(). "\nWithdraw Amount : $_withdraw_amount\nRemaining Balance :". $_accounts->getBalance()."\n";
+		return "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nPhone Number : ". $_accounts->getPhoneNumber(). "\nWithdraw Amount : $_withdraw_amount\nRemaining Balance :". $_accounts->getBalance()."\n";
 	}
 }
 ?>

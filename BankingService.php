@@ -5,47 +5,78 @@ require_once 'Database.php';
 
 abstract class BankingService
 {
-
 	/**
-	 * Starts the requested banking service
-	 * @param Account $_accounts Account object
+	 * Starts the requested banking service.
+	 * @param Account $_account Account object
 	 * @return void
 	 */
-	public function start(Account $_accounts) {
-		if (!$this->authenticate($_accounts)) {
+	public function start(Account $_account)
+	{
+		$pin = (int) readline("Enter PIN: ");
+
+		if (!$this->authenticate($_account, $pin)) {
 			return;
 		}
 
-		$this->service($_accounts);
+		$this->service($_account);
+	}
+
+	/**
+	 * Used by API for authentication.
+	 * @param Account $_account Account object
+	 * @param int $_pin Account PIN
+	 * @return bool
+	 */
+	public function login(Account $_account, int $_pin): bool
+	{
+		return $this->authenticate($_account, $_pin);
 	}
 
 	/**
 	 * Authenticates the user by validating the PIN.
-	 * @param Account $_account  Account object
+	 * Blocks the account after 3 failed attempts.
+	 *
+	 * @param Account $_account Account object
+	 * @param int $_pin Entered PIN
 	 * @return bool
 	 */
-	protected function authenticate(Account $_account) {
-		$attempts = 3;
+	protected function authenticate(Account $_account, int $_pin): bool
+	{
+		if ($_account->getIsLocked()) {
+			echo "Account Blocked\n";
+			return false;
+		}
 
-		while ($attempts > 0) {
+		if (!isset($_SESSION["attempts"])) {
+			$_SESSION["attempts"] = 3;
+		}
 
-			$pin = (int) readline("Enter PIN: ");
+		if ($_pin === $_account->getPin()) {
 
-			if ($pin === $_account->getPin()) {
-				return true;
-			}
+			$_SESSION["attempts"] = 3;
 
-			$attempts--;
+			return true;
+		}
 
-			if ($attempts > 0) {
-				echo "Wrong PIN. Attempts Left: $attempts\n";
-			}
+		$_SESSION["attempts"]--;
+
+		if ($_SESSION["attempts"] > 0) {
+
+			echo "Wrong PIN. Attempts Left : " .
+				$_SESSION["attempts"] . "\n";
+
+			return false;
 		}
 
 		$_account->setIsLocked();
-		$account_repository = new AccountRepository(new Database());
+
+		$account_repository = new AccountRepository(
+			new Database()
+		);
 
 		$account_repository->saveAccount($_account);
+
+		unset($_SESSION["attempts"]);
 
 		echo "Account Blocked\n";
 
