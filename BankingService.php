@@ -40,15 +40,16 @@ abstract class BankingService
 	 * @param int $_pin Entered PIN
 	 * @return bool
 	 */
-	protected function authenticate(Account $_account, int $_pin): bool
-	{
+	protected function authenticate(Account $_account, int $_pin) {
 		if ($_account->getIsLocked()) {
 			echo "Account Blocked\n";
+
 			return false;
 		}
 
-		if (!isset($_SESSION["attempts"])) {
+		if (!array_key_exists("attempts", $_SESSION)) {
 			$_SESSION["attempts"] = 3;
+
 		}
 
 		if ($_pin === $_account->getPin()) {
@@ -62,21 +63,18 @@ abstract class BankingService
 
 		if ($_SESSION["attempts"] > 0) {
 
-			echo "Wrong PIN. Attempts Left : " .
-				$_SESSION["attempts"] . "\n";
+			echo "Wrong PIN. Attempts Left : " . $_SESSION["attempts"] . "\n";
 
 			return false;
 		}
 
 		$_account->setIsLocked();
 
-		$account_repository = new AccountRepository(
-			new Database()
-		);
+		$account_repository = new AccountRepository(new Database());
 
 		$account_repository->saveAccount($_account);
 
-		unset($_SESSION["attempts"]);
+		$_SESSION["attempts"] = 3;
 
 		echo "Account Blocked\n";
 

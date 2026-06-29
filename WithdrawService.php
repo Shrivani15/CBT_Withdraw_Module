@@ -19,7 +19,7 @@ class WithdrawService extends BankingService
 		$this->transaction_service = $_transaction_serivce;
 	}
 
-	/*
+	/** 
 	 * Performs withdraw service.
 	 * @param Account $_accounts
 	 * @return void
@@ -36,14 +36,13 @@ class WithdrawService extends BankingService
 	 * Performs withdrawal.
 	 * @param Account $_accounts
 	 * @param int $_withdraw_amount
-	 * @return void
+	 * @return String|null
 	 */
 	public function withdraw(Account $_accounts, int $_withdraw_amount)
 	{
 		if ($this->transaction_service->getTodayTransactionCount($_accounts->getAccountNumber()) >= 3) {
-			echo "Maximum 3 transactions allowed per day.\n";
+			return "Maximum 3 transactions allowed per day.\n";
 
-			return;
 		}
 
 		$this->remaining_balance = $_accounts->getBalance() - $_withdraw_amount;
@@ -51,12 +50,12 @@ class WithdrawService extends BankingService
 		$error_message = $this->validateWithdrawal($_accounts, $_withdraw_amount);
 
 		if ($error_message !== null) {
-			echo $error_message . "\n";
+			return $error_message . "\n";
 
-			return;
 		}
 
 		$this->performWithdrawal($_accounts, $_withdraw_amount);
+		return null;
 	}
 
 	/**
@@ -91,22 +90,22 @@ class WithdrawService extends BankingService
 	}
 
 	/**
-	 * Performs withdrawal and updates account.
-	 * @param Account $_accounts
-	 * @param int $_withdraw_amount
-	 * @return void
-	 */
+ 	 * Performs withdrawal and updates account.
+ 	 * @param Account $_accounts
+ 	 * @param int $_withdraw_amount
+ 	 * @return void
+ 	 */
 	private function performWithdrawal(Account $_accounts, int $_withdraw_amount) {
-		echo "WITHDRAWAL SUCCESSFUL\n";
+   		$this->transaction_service->saveTransaction($_accounts->getAccountNumber(), $_withdraw_amount, $this->remaining_balance);
 
-		$this->transaction_service->saveTransaction($_accounts->getAccountNumber(), $_withdraw_amount, $this->remaining_balance);
+    	$_accounts->setBalance($this->remaining_balance);
 
-		$_accounts->setBalance($this->remaining_balance);
-		$account_repository = new AccountRepository(new Database());
+    	$account_repository = new AccountRepository(new Database());
 
-		$account_repository->saveAccount($_accounts);
+    	$account_repository->saveAccount($_accounts);
 
-		return "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nPhone Number : ". $_accounts->getPhoneNumber(). "\nWithdraw Amount : $_withdraw_amount\nRemaining Balance :". $_accounts->getBalance()."\n";
+		echo "UserName : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nPhone Number : ". $_accounts->getPhoneNumber(). "\nWithdraw Amount : $_withdraw_amount\nRemaining Balance :". $_accounts->getBalance()."\n"; 
 	}
 }
+
 ?>

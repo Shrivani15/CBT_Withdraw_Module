@@ -11,9 +11,16 @@ require_once "../TransactionRepository.php";
 require_once "../TransactionService.php";
 require_once "../WithdrawService.php";
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    echo json_encode(["status" => false, "message" => "Method Not Allowed. Use POST."]);
+
+    exit;
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data["account_number"]) || !isset($data["pin"])) {
+if (!array_key_exists("account_number", $data) || !array_key_exists("pin", $data)) {
 	echo json_encode(["status" => false, "message" => "Invalid Request"]);
 
 	exit;

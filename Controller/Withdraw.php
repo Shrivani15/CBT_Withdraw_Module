@@ -11,7 +11,14 @@ require_once "../TransactionRepository.php";
 require_once "../TransactionService.php";
 require_once "../WithdrawService.php";
 
-if (!isset($_SESSION["account_number"])) {
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    http_response_code(405);
+    echo json_encode(["status" => false, "message" => "Method Not Allowed. Use POST."]);
+
+    exit;
+}
+
+if (!array_key_exists("account_number", $_SESSION)) {
     echo json_encode(["status" => false, "message" => "Please Authenticate First"]);
 
     exit;
@@ -19,7 +26,7 @@ if (!isset($_SESSION["account_number"])) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data["amount"])) {
+if (!array_key_exists("amount", $data)) {
     echo json_encode(["status" => false, "message" => "Withdraw Amount Required"]);
 
     exit;
@@ -44,6 +51,4 @@ if ($account === null) {
     exit;
 }
 
-$withdraw_service->withdraw($account, $data["amount"]);
-
-echo json_encode(["status" => true, "message" => "Transaction Completed"]);
+echo json_encode(["status" => true, "message" => "Withdrawal Successful","data" => ["user_name" => $account->getUserName(), "account_number" => $account->getAccountNumber(), "account_type" => $account->getAccountType(), "phone_number" => $account->getPhoneNumber(), "remaining_balance" => $account->getBalance()]]);
