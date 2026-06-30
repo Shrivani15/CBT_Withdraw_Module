@@ -2,27 +2,27 @@
 
 class Account
 {
-	//Constant data for minimum balance and maximum limit per day.
-	public const LIMITS = [
-        'Savings' => [
-            'minimum_balance' => 500,
-            'maximum_limit' => 20000
-        ],
-        'Current' => [
-            'minimum_balance' => 400,
-            'maximum_limit' => 10000
-        ],
-        'Salary' => [
-            'minimum_balance' => 300,
-            'maximum_limit' => 15000
-        ]
-    ];
+	// //Constant data for minimum balance and maximum limit per day.
+	// public const LIMITS = [
+    //     'Savings' => [
+    //         'minimum_balance' => 500,
+    //         'maximum_limit' => 20000
+    //     ],
+    //     'Current' => [
+    //         'minimum_balance' => 400,
+    //         'maximum_limit' => 10000
+    //     ],
+    //     'Salary' => [
+    //         'minimum_balance' => 300,
+    //         'maximum_limit' => 15000
+    //     ]
+    // ];
 
 	private int $id;
 	private int $account_number;
 	private string $user_name;
 	private int $phone_number;
-	private string $account_type;
+	private AccountType $account_type;
 	private int $pin;
 	private int $attempts;
 	private int $balance;
@@ -30,17 +30,17 @@ class Account
 
 	/**
 	 * Saves account details.
-	 * @param int	 $_id               Id
-	 * @param int    $_account_number	Account Number
-	 * @param string $_user_name		Account Holder Name
-	 * @param int    $_phone_number		Account Holder phone number
-	 * @param string $_account_type 	Account Type
-	 * @param int    $_pin				Account pin
-	 * @param int    $_balance			Current balance of the account
-	 * @param bool   $_is_locked		Account is open or close to access
+	 * @param int	 		$_id              	Id
+	 * @param int    		$_account_number	Account Number
+	 * @param string 		$_user_name			Account Holder Name
+	 * @param int    		$_phone_number		Account Holder phone number
+	 * @param AccountType   $_account_type	 	Account Type ID
+	 * @param int    		$_pin				Account pin
+	 * @param int    		$_balance			Current balance of the account
+	 * @param bool   		$_is_locked			Account is open or close to access
 	 * @return void
 	 */
-	public function __construct(int $_id, int $_account_number, string $_user_name, int $_phone_number, string $_account_type, int $_pin, int $_balance, int $_attempts, bool $_is_locked) {
+	public function __construct(int $_id, int $_account_number, string $_user_name, int $_phone_number, AccountType $_account_type, int $_pin, int $_balance, int $_attempts, bool $_is_locked) {
 		$this->id = $_id;
 		$this->account_number = $_account_number;
 		$this->user_name = $_user_name;
@@ -93,7 +93,7 @@ class Account
 	}
 
 	public function getAccountType() {
-
+    
 		return $this->account_type;
 	}
 

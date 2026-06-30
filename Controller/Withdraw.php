@@ -54,4 +54,4 @@ if ($error_message !== null) {
     exit;
 }
 
-echo json_encode(["status" => true, "message" => "Withdrawal Successful","data" => ["user_name" => $account->getUserName(), "account_number" => $account->getAccountNumber(), "account_type" => $account->getAccountType(), "phone_number" => $account->getPhoneNumber(), "remaining_balance" => $account->getBalance()]]);
+echo json_encode(["status" => true, "message" => "Withdrawal Successful","data" => ["user_name" => $account->getUserName(), "account_number" => $account->getAccountNumber(), "account_type"=>$account->getAccountType()->getAccountType(), "phone_number" => $account->getPhoneNumber(), "remaining_balance" => $account->getBalance()]]);

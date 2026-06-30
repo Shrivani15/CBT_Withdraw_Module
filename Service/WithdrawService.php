@@ -67,8 +67,9 @@ class WithdrawService extends BankingService
 	private function validateWithdrawal(Account $_accounts, int $_withdraw_amount) {
 		$error_message = null;
 
-		$minimum_balance = Account::LIMITS[$_accounts->getAccountType()]['minimum_balance'];
-		$maximum_limit = Account::LIMITS[$_accounts->getAccountType()]['maximum_limit'];
+		$minimum_balance =	$_accounts->getAccountType()->getMinimumBalance();
+		$maximum_limit = $_accounts->getAccountType()->getMaximumLimit();
+
 		$today_withdrawal_amount = $this->transaction_service->getTodayWithdrawalAmount($_accounts->getId());
 
 		if($_withdraw_amount % 100 != 0){
