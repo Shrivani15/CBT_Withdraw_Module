@@ -13,27 +13,27 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
 
     exit;
 }
-
-if (!array_key_exists("account_number", $_GET)) {
-    echo json_encode(["status" => false, "message" => "Account Number Required"]);
-
-    exit;
-}
-
 $database = new Database();
 
 $account_repository = new AccountRepository($database);
 
 $transaction_repository = new TransactionRepository($database);
 
-$account = $account_repository->getAccount((int)$_GET["account_number"]);
+if (array_key_exists("account_number", $_GET)) {
 
-if ($account === null) {
-    echo json_encode(["status" => false, "message" => "Account Not Found"]);
+    $account = $account_repository->getAccount((int)$_GET["account_number"]);
 
-    exit;
+    if ($account === null) {
+        echo json_encode(["status" => false, "message" => "Account Not Found"]);
+
+        exit;
+    }
+
+    $transactions = $transaction_repository->getTransactions($account->getId());
+
+} else {
+
+    $transactions = $transaction_repository->getTransactions();
 }
-
-$transactions = $transaction_repository->getTransactions($account->getId());
 
 echo json_encode(["status" => true, "transactions" => $transactions]);

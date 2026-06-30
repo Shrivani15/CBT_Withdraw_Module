@@ -44,13 +44,58 @@ class TransactionRepository
 
 	/**
 	 * Returns transaction history.
-	 * @param int $_account_id
+	 * @param int $_account_id| null
 	 * @return array
 	 */
-	public function getTransactions(int $_account_id) {
-		$query = "SELECT a.account_number, a.user_name, a.phone_number, a.account_type, t.withdraw_amount, t.balance_after, t.created_at FROM transactions t INNER JOIN accounts a ON t.account_id = a.id WHERE t.account_id = ? ORDER BY t.created_at DESC";
+	public function getTransactions(?int $_account_id = null){
+		if ($_account_id === null) {
 
-		$statement = $this->executeStatement($query, "i", $_account_id);
+			$query = "SELECT
+						a.account_number,
+						a.user_name,
+						a.account_type,
+						t.withdraw_amount,
+						t.balance_after,
+						t.created_at
+					FROM 
+						transactions t
+					INNER JOIN 
+						accounts a
+					ON 
+						t.account_id = a.id
+					ORDER BY 
+						t.created_at 
+					DESC";
+
+			$statement = $this->connection->prepare($query);
+
+		} else {
+
+			$query = "SELECT
+						a.account_number,
+						a.user_name,
+						a.account_type,
+						t.withdraw_amount,
+						t.balance_after,
+						t.created_at
+					FROM 
+						transactions t
+					INNER JOIN 
+						accounts a
+					ON 
+						t.account_id = a.id
+					WHERE 
+						t.account_id = ?
+					ORDER BY 
+						t.created_at 
+					DESC";
+
+			$statement = $this->executeStatement($query, "i", $_account_id);
+		}
+
+		if ($_account_id === null) {
+			$statement->execute();
+		}
 
 		$result = $statement->get_result();
 
