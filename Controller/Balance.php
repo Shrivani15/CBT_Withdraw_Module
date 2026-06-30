@@ -22,7 +22,7 @@ $database = new Database();
 
 $account_repository = new AccountRepository($database);
 
-$account = $account_repository->getAccount((int) $_GET["account_number"]);
+$account = $account_repository->getAccount($_GET["account_number"]);
 
 
 if ($account === null) {
