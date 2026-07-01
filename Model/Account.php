@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . "/AccountType.php";
 class Account
 {
 	// //Constant data for minimum balance and maximum limit per day.

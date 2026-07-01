@@ -1,9 +1,9 @@
 <?php
 
-require_once "../Model/Account.php";
-require_once "BankingService.php";
-require_once "TransactionService.php";
-require_once "../Repository/AccountRepository.php";
+require_once __DIR__ . "/../Model/Account.php";
+require_once __DIR__ . "/BankingService.php";
+require_once __DIR__ . "/../Repository/AccountRepository.php";
+require_once __DIR__ . "/../Config/Database.php";
 
 class WithdrawService extends BankingService
 {

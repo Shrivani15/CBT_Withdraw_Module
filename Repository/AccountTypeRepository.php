@@ -1,7 +1,9 @@
 <?php
 
-require_once "../Config/Database.php";
-require_once "../Trait/PreparedStatementTrait.php";
+require_once __DIR__ . "/../Config/Database.php";
+require_once __DIR__ . "/../Service/PreparedStatementTrait.php";
+require_once __DIR__ . "/../Model/Account.php";
+require_once __DIR__ . "/../Model/AccountType.php";
 
 class AccountTypeRepository
 {

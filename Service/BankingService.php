@@ -1,7 +1,8 @@
 <?php
 
-require_once '../Model/Account.php';
-require_once '../Config/Database.php';
+require_once __DIR__ . "/../Model/Account.php";
+require_once __DIR__ . "/../Config/Database.php";
+require_once __DIR__ . "/../Repository/AccountRepository.php";
 
 abstract class BankingService
 {

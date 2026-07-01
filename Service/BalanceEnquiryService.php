@@ -1,7 +1,9 @@
 <?php
 
-require_once "BankingService.php";
-require_once "../Model/Account.php";
+require_once __DIR__ . "/../Model/Account.php";
+require_once __DIR__ . "/BankingService.php";
+require_once __DIR__ . "/../Repository/AccountRepository.php";
+require_once __DIR__ . "/../Config/Database.php";
 
 class BalanceEnquiryService extends BankingService
 {
@@ -16,6 +18,6 @@ class BalanceEnquiryService extends BankingService
 	{
 		echo "\nBALANCE DETAILS\n";
 
-		echo "User Name : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType() . "\nBalance :". $_accounts->getBalance()."\n";
+		echo "User Name : " .$_accounts->getUserName()."\nAccount Number : " . $_accounts->getAccountNumber() . "\nAccount Type : " .$_accounts->getAccountType()->getAccountType() . "\nBalance :". $_accounts->getBalance()."\n";
 	}
 }

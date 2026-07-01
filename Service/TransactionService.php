@@ -1,7 +1,7 @@
 <?php
 
-require_once "../Service/Interface/TransactionOperation.php";
-require_once "../Repository/TransactionRepository.php";
+require_once __DIR__ . "/Interface/TransactionOperation.php";
+require_once __DIR__ . "/../Repository/TransactionRepository.php";
 
 class TransactionService implements TransactionOperation
 {
