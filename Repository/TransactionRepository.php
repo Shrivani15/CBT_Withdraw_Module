@@ -131,7 +131,6 @@ class TransactionRepository
 
 	/**
 	 * Returns total transactions for a particular date.
-	 *
 	 * @param ?string $_date Date (YYYY-MM-DD)
 	 * @return array|null
 	 */
@@ -163,7 +162,6 @@ class TransactionRepository
 
 	/**
 	 * Saves a successful transaction.
-	 *
 	 * @param int $_account_id
 	 * @param int $_amount
 	 * @param int $_balance

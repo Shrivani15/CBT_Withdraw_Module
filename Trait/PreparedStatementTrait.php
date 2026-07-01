@@ -2,9 +2,11 @@
 
 trait PreparedStatementTrait
 {
+	protected function __constructor(){
+
+	}
 	/**
 	 * Prepares, binds and executes the SQL query.
-	 *
 	 * @param string $_query SQL Query
 	 * @param string $_types Parameter Types
 	 * @param mixed ...$_values Values to bind

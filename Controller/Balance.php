@@ -21,14 +21,24 @@ if (!array_key_exists("account_number", $_GET)) {
 $database = new Database();
 
 $account_repository = new AccountRepository($database);
+$account_status = $account_repository->getAccountStatus((int)$_GET["account_number"]);
+if ($account_status["account_status"] === "Blocked") {
 
-$account = $account_repository->getAccount($_GET["account_number"]);
-
-
-if ($account === null) {
-    echo json_encode(["status" => false, "message" => "Account Not Found"]);
+    echo json_encode([
+        "status" => false,
+        "message" => "Account Blocked"
+    ]);
 
     exit;
-}
+} else {
 
-echo json_encode(["status" => true, "account_number" => $account->getAccountNumber(), "user_name" => $account->getUserName(), "account_type"=>$account->getAccountType()->getAccountType(),"phone_number" => $account->getPhoneNumber(),"balance" => $account->getBalance()]);
+    $account = $account_repository->getAccount($_GET["account_number"]);
+
+    if ($account === null) {
+        echo json_encode(["status" => false, "message" => "Account Not Found"]);
+
+        exit;
+    }
+
+    echo json_encode(["status" => true, "account_number" => $account->getAccountNumber(), "user_name" => $account->getUserName(), "account_type"=>$account->getAccountType()->getAccountType(),"phone_number" => $account->getPhoneNumber(),"balance" => $account->getBalance()]);
+}

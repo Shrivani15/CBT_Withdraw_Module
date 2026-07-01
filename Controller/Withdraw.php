@@ -35,23 +35,33 @@ $transaction_service = new TransactionService($transaction_repository);
 
 $withdraw_service = new WithdrawService($transaction_service);
 
-$account = $account_repository->getAccount($data["account_number"]);
+$account_status = $account_repository->getAccountStatus($data["account_number"]);
+if ($account_status["account_status"] === "Blocked") {
 
-
-
-if ($account === null) {
-
-    echo json_encode(["status" => false, "message" => "Account Not Found"]);
-
-    exit;
-}
-
-$error_message = $withdraw_service->withdraw($account, $data["amount"]);
-
-if ($error_message !== null) {
-    echo json_encode(["status" => false, "message" => $error_message]);
+    echo json_encode([
+        "status" => false,
+        "message" => "Account Blocked"
+    ]);
 
     exit;
-}
+} else {
 
-echo json_encode(["status" => true, "message" => "Withdrawal Successful","data" => ["user_name" => $account->getUserName(), "account_number" => $account->getAccountNumber(), "account_type"=>$account->getAccountType()->getAccountType(), "phone_number" => $account->getPhoneNumber(), "remaining_balance" => $account->getBalance()]]);
+    $account = $account_repository->getAccount($data["account_number"]);
+
+    if ($account === null) {
+
+        echo json_encode(["status" => false, "message" => "Account Not Found"]);
+
+        exit;
+    }
+
+    $error_message = $withdraw_service->withdraw($account, $data["amount"]);
+
+    if ($error_message !== null) {
+        echo json_encode(["status" => false, "message" => $error_message]);
+
+        exit;
+    }
+
+    echo json_encode(["status" => true, "message" => "Withdrawal Successful","data" => ["user_name" => $account->getUserName(), "account_number" => $account->getAccountNumber(), "account_type"=>$account->getAccountType()->getAccountType(), "phone_number" => $account->getPhoneNumber(), "remaining_balance" => $account->getBalance()]]);
+}
